@@ -1,4 +1,4 @@
-package com.example.kotlinphotos
+package com.example.kotlinphotos.previous
 
 import androidx.recyclerview.widget.DiffUtil
 

@@ -1,4 +1,4 @@
-package com.example.kotlinphotos
+package com.example.kotlinphotos.previous
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kotlinphotos.R
 
 class PhotosAdaptor(
     private val colors: List<Int>,
