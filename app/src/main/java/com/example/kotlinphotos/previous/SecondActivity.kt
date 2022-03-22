@@ -1,4 +1,4 @@
-package com.example.kotlinphotos
+package com.example.kotlinphotos.previous
 
 import android.Manifest
 import android.content.Intent
@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.kotlinphotos.R
 import com.google.android.material.snackbar.Snackbar
 
 const val PERMISSIONS_REQUEST_READ_STORAGE = 321

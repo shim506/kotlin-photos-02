@@ -12,8 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Kotlinphotos">
         <activity
-            android:name=".SecondActivity"
-            android:exported="true" >
+            android:name=".photos.PhotoActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,9 +21,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:exported="false">
-        </activity>
+            android:name=".previous.SecondActivity"
+            android:exported="true" />
+        <activity
+            android:name=".previous.MainActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
