@@ -1,4 +1,4 @@
-package com.example.kotlinphotos.previous
+package com.example.kotlinphotos.photos
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,14 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinphotos.R
 
 class PhotosAdaptor(
-    private val colors: List<Int>,
-    diffCallback: DiffUtil.ItemCallback<Int>
-) : ListAdapter<Int, PhotosAdaptor.Holder>(diffCallback) {
+    private val photos: List<Photo>,
+    diffCallback: DiffUtil.ItemCallback<Photo>
+) : ListAdapter<Photo, PhotosAdaptor.Holder>(diffCallback) {
 
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val view = itemView.findViewById<View>(R.id.view_photo)
-        fun bind(color: Int) {
-            view.setBackgroundColor(color)
+        fun bind(photo: Photo) {
+            // view.setBackgroundColor(color)
         }
     }
 
@@ -26,10 +26,10 @@ class PhotosAdaptor(
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.bind(colors[position])
+        holder.bind(photos[position])
     }
 
     override fun getItemCount(): Int {
-        return colors.size
+        return photos.size
     }
 }
