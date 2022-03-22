@@ -1,11 +1,13 @@
 package com.example.kotlinphotos
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import androidx.annotation.RequiresApi
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
@@ -16,7 +18,8 @@ const val PERMISSIONS_REQUEST_READ_STORAGE = 321
 
 class SecondActivity : AppCompatActivity() {
     val TAG = "SecondActivity"
-
+    var image: Uri? = null
+    private var getImageResult: ActivityResultLauncher<Intent>? = null
     private lateinit var albumOpenConstraintLayout: ConstraintLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,8 +27,18 @@ class SecondActivity : AppCompatActivity() {
         setContentView(R.layout.activity_second)
         albumOpenConstraintLayout =
             findViewById<ConstraintLayout>(R.id.open_album_constraint_layout)
-        setAlbumOpenConstraintLayoutListener()
 
+        setAlbumOpenConstraintLayoutListener()
+        getImageResult = setLauncher()
+    }
+
+    private fun setLauncher(): ActivityResultLauncher<Intent> {
+        return registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK) {
+                val uri: Uri = it.data?.data as Uri
+                image = uri
+            }
+        }
     }
 
     private fun setAlbumOpenConstraintLayoutListener() {
@@ -39,10 +52,17 @@ class SecondActivity : AppCompatActivity() {
             PackageManager.PERMISSION_GRANTED
         ) {
             Log.d(TAG, "존재")
+            getImage()
         } else {
             Log.d(TAG, "미존재")
             requestStoragePermission()
         }
+    }
+
+    private fun getImage() {
+        intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        getImageResult?.launch(intent)
     }
 
     private fun requestStoragePermission() {
@@ -71,7 +91,8 @@ class SecondActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == PERMISSIONS_REQUEST_READ_STORAGE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.d(TAG , "승인")
+                Log.d(TAG, "승인")
+                getImage()
             } else {
                 Log.d(TAG, "거부")
             }
