@@ -3,9 +3,14 @@ package com.example.kotlinphotos
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
-class PhotosAdaptor(private val colors: List<Int>) : RecyclerView.Adapter<PhotosAdaptor.Holder>() {
+class PhotosAdaptor(
+    private val colors: List<Int>,
+    diffCallback: DiffUtil.ItemCallback<Int>
+) : ListAdapter<Int, PhotosAdaptor.Holder>(diffCallback) {
 
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val view = itemView.findViewById<View>(R.id.view_photo)
@@ -26,5 +31,4 @@ class PhotosAdaptor(private val colors: List<Int>) : RecyclerView.Adapter<Photos
     override fun getItemCount(): Int {
         return colors.size
     }
-
 }

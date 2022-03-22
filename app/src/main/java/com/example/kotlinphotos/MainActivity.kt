@@ -3,7 +3,6 @@ package com.example.kotlinphotos
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -18,7 +17,7 @@ class MainActivity : AppCompatActivity() {
             randomColors.add(createRandomColor())
         }
 
-        val adaptor = PhotosAdaptor(randomColors)
+        val adaptor = PhotosAdaptor(randomColors, PhotosDiffCallback())
         recyclerView.adapter = adaptor
         recyclerView.layoutManager = GridLayoutManager(this, 4)
     }
