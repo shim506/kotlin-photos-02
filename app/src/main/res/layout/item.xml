@@ -17,8 +17,10 @@
 
     <CheckBox
         android:id="@+id/checkbox_select"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/selector_checkbox"
+        android:button="@null"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="@id/view_photo"
         app:layout_constraintTop_toTopOf="@id/view_photo" />
