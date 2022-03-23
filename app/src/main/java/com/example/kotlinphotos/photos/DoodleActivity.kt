@@ -33,11 +33,8 @@ class DoodleActivity : AppCompatActivity() {
             val str = AssetLoader.jsonToString(applicationContext, DOODLE_FILE_NAME)
             val jsonArray = JSONArray(str)
 
-            for (i in 0 until jsonArray.length()) {
-                if (errorIndexList.contains(i)) {
-                    continue
-                }
-                val json = jsonArray.getJSONObject(i)
+            repeat(jsonArray.length()) {
+                val json = jsonArray.getJSONObject(it)
                 val title = json.getString("title")
                 val image = json.getString("image")
                 val date = json.getString("date")
@@ -51,15 +48,16 @@ class DoodleActivity : AppCompatActivity() {
         }
     }
 
-    suspend fun loadImage(imageUrl: String): Bitmap {
+    suspend fun loadImage(imageUrl: String): Bitmap? {
         val url = URL(imageUrl)
-        val stream = url.openStream()
-        return BitmapFactory.decodeStream(stream)
+        return kotlin.runCatching {
+            val stream = url.openStream()
+            BitmapFactory.decodeStream(stream)
+        }.getOrNull()
     }
 
     companion object {
         const val DOODLE_FILE_NAME = "doodle.json"
         val errorIndexList = listOf<Int>(19, 68, 73, 93)
-
     }
 }
