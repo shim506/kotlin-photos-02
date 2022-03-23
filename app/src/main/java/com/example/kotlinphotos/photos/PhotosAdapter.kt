@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinphotos.R
 
-class PhotosAdaptor(
+class PhotosAdapter(
     private val photos: List<Photo>,
     diffCallback: DiffUtil.ItemCallback<Photo>
-) : ListAdapter<Photo, PhotosAdaptor.Holder>(diffCallback) {
+) : ListAdapter<Photo, PhotosAdapter.Holder>(diffCallback) {
 
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val view = itemView.findViewById<View>(R.id.view_photo)
