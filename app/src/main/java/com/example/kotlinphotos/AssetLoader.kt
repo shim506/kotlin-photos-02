@@ -2,9 +2,9 @@ package com.example.kotlinphotos
 
 import android.content.Context
 
-object AssetLoader {
+class AssetLoader(private val context: Context) {
 
-    private fun loadAsset(context: Context, fileName: String): String {
+    private fun loadAsset(fileName: String): String {
         return context.assets.open(fileName).use { inputStream ->
             val size = inputStream.available()
             val byteArray = ByteArray(size)
@@ -13,9 +13,9 @@ object AssetLoader {
         }
     }
 
-    fun jsonToString(context: Context, fileName: String): String? {
+    fun jsonToString(fileName: String): String? {
         return kotlin.runCatching {
-            loadAsset(context, fileName)
+            loadAsset(fileName)
         }.getOrNull()
     }
 }

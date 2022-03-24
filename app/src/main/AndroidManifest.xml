@@ -16,7 +16,7 @@
             android:name=".ui.doodle.DoodleActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.photo.PhotoActivity"
+            android:name=".ui.photo.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

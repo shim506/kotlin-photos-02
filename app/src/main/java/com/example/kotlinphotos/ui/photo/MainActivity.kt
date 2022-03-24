@@ -11,7 +11,7 @@ import com.example.kotlinphotos.ui.doodle.DoodleActivity
 import com.example.kotlinphotos.model.Photo
 import com.example.kotlinphotos.ui.common.PhotosDiffCallback
 
-class PhotoActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
     private lateinit var plusImageButton: ImageButton
     private lateinit var recyclerView: RecyclerView
 
