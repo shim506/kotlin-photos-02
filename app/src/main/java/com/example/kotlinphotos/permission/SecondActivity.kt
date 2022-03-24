@@ -1,4 +1,4 @@
-package com.example.kotlinphotos.previous
+package com.example.kotlinphotos.permission
 
 import android.Manifest
 import android.content.Intent

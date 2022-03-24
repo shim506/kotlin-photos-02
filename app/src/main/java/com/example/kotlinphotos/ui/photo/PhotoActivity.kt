@@ -1,4 +1,4 @@
-package com.example.kotlinphotos.photos
+package com.example.kotlinphotos.ui.photo
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +7,9 @@ import android.widget.ImageButton
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinphotos.R
+import com.example.kotlinphotos.ui.doodle.DoodleActivity
+import com.example.kotlinphotos.model.Photo
+import com.example.kotlinphotos.ui.common.PhotosDiffCallback
 
 class PhotoActivity : AppCompatActivity() {
     private lateinit var plusImageButton: ImageButton

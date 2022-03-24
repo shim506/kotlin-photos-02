@@ -1,13 +1,17 @@
-package com.example.kotlinphotos.photos
+package com.example.kotlinphotos.ui.doodle
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageButton
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kotlinphotos.AssetLoader
 import com.example.kotlinphotos.R
+import com.example.kotlinphotos.model.Photo
+import com.example.kotlinphotos.ui.common.PhotosDiffCallback
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,9 +20,10 @@ import org.json.JSONArray
 import java.net.URL
 
 class DoodleActivity : AppCompatActivity() {
-    lateinit var backButton: ImageButton
-    lateinit var recyclerView: RecyclerView
-    val photos = mutableListOf<Photo>()
+    private lateinit var backButton: ImageButton
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var saveImageButton: ImageButton
+    private val photos = mutableListOf<Photo>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,9 +31,15 @@ class DoodleActivity : AppCompatActivity() {
 
         backButton = findViewById(R.id.image_button_back)
         recyclerView = findViewById(R.id.recyclerview_doodle)
+        saveImageButton = findViewById(R.id.image_button_save)
+
         backButton.setOnClickListener { finish() }
-        val doodleadapter = DoodleAdapter(PhotosDiffCallback())
-        recyclerView.adapter = doodleadapter
+        val doodleAdapter = DoodleAdapter(PhotosDiffCallback(), object : OnSaveListener {
+            override fun save() {
+                saveImageButton.visibility = View.VISIBLE
+            }
+        })
+        recyclerView.adapter = doodleAdapter
         recyclerView.layoutManager = GridLayoutManager(this, 3)
 
         CoroutineScope(Dispatchers.Main).launch {
@@ -44,7 +55,7 @@ class DoodleActivity : AppCompatActivity() {
                 val bitmap = withContext(Dispatchers.IO) { loadImage(image) }
                 photos.add(Photo(title, bitmap, date))
             }
-            doodleadapter.submitList(photos)
+            doodleAdapter.submitList(photos)
         }
     }
 

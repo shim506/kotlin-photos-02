@@ -1,8 +1,6 @@
-package com.example.kotlinphotos.photos
+package com.example.kotlinphotos
 
 import android.content.Context
-import java.lang.Exception
-import java.lang.NullPointerException
 
 object AssetLoader {
 
