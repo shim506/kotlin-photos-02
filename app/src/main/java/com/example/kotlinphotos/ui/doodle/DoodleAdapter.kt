@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinphotos.R
 import com.example.kotlinphotos.model.Photo
+import com.example.kotlinphotos.model.Type.*
 
 class DoodleAdapter(
     diffCallback: DiffUtil.ItemCallback<Photo>,
@@ -28,14 +29,14 @@ class DoodleAdapter(
 
         holder.itemView.setOnLongClickListener {
             for (current in currentList) {
-                current.mode = 1
+                current.mode = EDIT
             }
             false
         }
         holder.itemView.setOnClickListener {
-            if (photo.mode == 1) {
+            if (photo.mode == EDIT) {
                 currentList[position].isChecked = true
-                saveListener.save()
+                saveListener.showSaveButton()
                 notifyDataSetChanged()
             }
         }
@@ -48,8 +49,8 @@ class DoodleAdapter(
 
         fun bind(photo: Photo) {
             when (photo.mode) {
-                1 -> photoCheckBox.visibility = View.VISIBLE
-                0 -> photoCheckBox.visibility = View.INVISIBLE
+                EDIT -> photoCheckBox.visibility = View.VISIBLE
+                READ -> photoCheckBox.visibility = View.INVISIBLE
             }
             photoCheckBox.setOnCheckedChangeListener(null)
             photoCheckBox.isChecked = photo.isChecked

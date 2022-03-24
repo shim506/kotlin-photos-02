@@ -35,7 +35,7 @@ class DoodleActivity : AppCompatActivity() {
 
         backButton.setOnClickListener { finish() }
         val doodleAdapter = DoodleAdapter(PhotosDiffCallback(), object : OnSaveListener {
-            override fun save() {
+            override fun showSaveButton() {
                 saveImageButton.visibility = View.VISIBLE
             }
         })
