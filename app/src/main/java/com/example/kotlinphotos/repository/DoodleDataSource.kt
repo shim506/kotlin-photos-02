@@ -4,5 +4,5 @@ import com.example.kotlinphotos.model.Photo
 
 interface DoodleDataSource {
 
-    suspend fun getDoodleData(): List<Photo>
+    fun getDoodleData(): List<Photo>
 }
