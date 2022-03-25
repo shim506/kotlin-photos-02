@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageButton
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,7 @@ class DoodleActivity : AppCompatActivity() {
     lateinit var backButton: ImageButton
     lateinit var recyclerView: RecyclerView
     val photos = mutableListOf<Photo>()
+    lateinit var doodleAdapter: DoodleAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,16 +29,28 @@ class DoodleActivity : AppCompatActivity() {
         backButton = findViewById(R.id.image_button_back)
         recyclerView = findViewById(R.id.recyclerview_doodle)
         backButton.setOnClickListener { finish() }
-        val doodleadapter = DoodleAdapter(PhotosDiffCallback())
-        recyclerView.adapter = doodleadapter
+        doodleAdapter = DoodleAdapter(PhotosDiffCallback(), object : ImageSelectedListener {
+
+            override fun onEvent() {
+                //val newPhotos = mutableListOf<Photo>()
+                photos.forEach {
+                    it.viewType = ViewType.EDIT
+                    //newPhotos.add(it.copy())
+                }
+                doodleAdapter.submitList(photos)
+                //doodleAdapter.notifyDataSetChanged()
+            }
+        })
+        recyclerView.adapter = doodleAdapter
         recyclerView.layoutManager = GridLayoutManager(this, 3)
+
 
         CoroutineScope(Dispatchers.Main).launch {
             val str = AssetLoader.jsonToString(applicationContext, DOODLE_FILE_NAME)
             val jsonArray = JSONArray(str)
-
             val size = jsonArray.length()
-            repeat(size) {
+            //repeat(size) {
+                repeat(30) {
                 val json = jsonArray.getJSONObject(it)
                 val title = json.getString("title")
                 val image = json.getString("image")
@@ -44,7 +58,7 @@ class DoodleActivity : AppCompatActivity() {
                 val bitmap = withContext(Dispatchers.IO) { loadImage(image) }
                 photos.add(Photo(title, bitmap, date))
             }
-            doodleadapter.submitList(photos)
+            doodleAdapter.submitList(photos)
         }
     }
 
@@ -56,7 +70,12 @@ class DoodleActivity : AppCompatActivity() {
         }.getOrNull()
     }
 
+
     companion object {
         const val DOODLE_FILE_NAME = "doodle.json"
     }
+}
+
+interface ImageSelectedListener {
+    fun onEvent()
 }
