@@ -1,16 +1,24 @@
 package com.example.kotlinphotos.ui.doodle
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinphotos.R
 import com.example.kotlinphotos.model.Photo
 import com.example.kotlinphotos.model.Type.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.net.URL
 
 class DoodleAdapter(
     diffCallback: DiffUtil.ItemCallback<Photo>,
@@ -48,14 +56,27 @@ class DoodleAdapter(
         private val photoCheckBox = view.findViewById<CheckBox>(R.id.checkbox_select)
 
         fun bind(photo: Photo) {
-            when (photo.mode) {
-                EDIT -> photoCheckBox.visibility = View.VISIBLE
-                READ -> photoCheckBox.visibility = View.INVISIBLE
+            CoroutineScope(Dispatchers.Main).launch {
+                val bitmap = loadImage(photo.imageUrl)
+                photoImageView.setImageBitmap(bitmap)
+                when (photo.mode) {
+                    EDIT -> photoCheckBox.visibility = View.VISIBLE
+                    READ -> photoCheckBox.visibility = View.INVISIBLE
+                }
+                photoCheckBox.setOnCheckedChangeListener(null)
+                photoCheckBox.isChecked = photo.isChecked
+                photoCheckBox.setOnCheckedChangeListener { _, value -> photo.isChecked = value }
             }
-            photoCheckBox.setOnCheckedChangeListener(null)
-            photoCheckBox.isChecked = photo.isChecked
-            photoCheckBox.setOnCheckedChangeListener { _, value -> photo.isChecked = value }
-            photoImageView.setImageBitmap(photo.bitmap)
+        }
+
+        private suspend fun loadImage(imageUrl: String): Bitmap? {
+            return withContext(Dispatchers.IO) {
+                kotlin.runCatching {
+                    val url = URL(imageUrl)
+                    val stream = url.openStream()
+                    BitmapFactory.decodeStream(stream)
+                }.getOrNull()
+            }
         }
     }
 }

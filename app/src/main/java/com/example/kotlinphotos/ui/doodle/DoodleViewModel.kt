@@ -22,9 +22,9 @@ class DoodleViewModel(
     }
 
     private fun loadDoodlePhotos() {
-        viewModelScope.launch(Dispatchers.Main.immediate) {
+//        viewModelScope.launch(Dispatchers.IO) {
             val doodles = repository.loadDoodlePhotos()
             _photos.value = doodles
-        }
+//        }
     }
 }

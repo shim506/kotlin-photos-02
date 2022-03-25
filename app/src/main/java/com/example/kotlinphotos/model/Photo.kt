@@ -5,7 +5,8 @@ import com.example.kotlinphotos.model.Type.*
 
 data class Photo(
     val tittle: String,
-    val bitmap: Bitmap?,
+//    val bitmap: Bitmap?,
+    val imageUrl: String,
     val date: String,
     var isChecked: Boolean = false,
     var mode: Type = READ
