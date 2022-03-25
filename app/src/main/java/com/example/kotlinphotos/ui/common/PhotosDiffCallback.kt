@@ -1,6 +1,7 @@
-package com.example.kotlinphotos.photos
+package com.example.kotlinphotos.ui.common
 
 import androidx.recyclerview.widget.DiffUtil
+import com.example.kotlinphotos.model.Photo
 
 
 class PhotosDiffCallback : DiffUtil.ItemCallback<Photo>() {

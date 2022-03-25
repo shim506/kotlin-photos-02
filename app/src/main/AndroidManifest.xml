@@ -13,10 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Kotlinphotos">
         <activity
-            android:name=".photos.DoodleActivity"
+            android:name=".ui.doodle.DoodleActivity"
             android:exported="false" />
         <activity
-            android:name=".photos.PhotoActivity"
+            android:name=".ui.photo.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,10 +25,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".previous.SecondActivity"
+            android:name=".permission.SecondActivity"
             android:exported="true" />
         <activity
-            android:name=".previous.MainActivity"
+            android:name=".permission.MainActivity"
             android:exported="false" />
     </application>
 

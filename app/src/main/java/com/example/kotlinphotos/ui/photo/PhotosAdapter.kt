@@ -1,4 +1,4 @@
-package com.example.kotlinphotos.photos
+package com.example.kotlinphotos.ui.photo
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinphotos.R
+import com.example.kotlinphotos.model.Photo
 
 class PhotosAdapter(
     private val photos: List<Photo>,
@@ -16,7 +17,7 @@ class PhotosAdapter(
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val view = itemView.findViewById<View>(R.id.view_photo)
         fun bind(photo: Photo) {
-            // view.setBackgroundColor(color)
+            // TODO: 디바이스에 저장된 데이터 그리기
         }
     }
 
