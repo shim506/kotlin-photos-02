@@ -29,23 +29,30 @@ class DoodleActivity : AppCompatActivity() {
         backButton = findViewById(R.id.image_button_back)
         backButton.setOnClickListener { finish() }
 
-        CoroutineScope(Dispatchers.Main).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             val str = AssetLoader.jsonToString(applicationContext, DOODLE_FILE_NAME)
             val jsonArray = JSONArray(str)
+            val start = System.currentTimeMillis();
+            val job = launch {
+                repeat(jsonArray.length()) {
+                    val json = jsonArray.getJSONObject(it)
+                    val title = json.getString("title")
+                    val image = json.getString("image")
+                    val date = json.getString("date")
 
-            repeat(jsonArray.length()) {
-                val json = jsonArray.getJSONObject(it)
-                val title = json.getString("title")
-                val image = json.getString("image")
-                val date = json.getString("date")
-
-                val bitmap = withContext(Dispatchers.IO) {
-                    loadImage(image)
+                    launch(Dispatchers.IO) {
+                        val bitmap = loadImage(image)
+                        photos.add(Photo(title, bitmap, date))
+                    }
                 }
-                photos.add(Photo(title, bitmap, date))
             }
-            Log.d(TAG, photos.size.toString())
+            job.join()
+            val end = System.currentTimeMillis()
+            val time = (end - start) / 1000
+            Log.d(TAG, "사진 개수 : ${photos.size.toString()}")
+            Log.d(TAG, "쇼요시간  : $time")
         }
+
     }
 
     suspend fun loadImage(imageUrl: String): Bitmap? {
